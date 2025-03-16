@@ -1,0 +1,20 @@
+@mixin flex($a: center, $j: center) {
+  display: flex;
+  align-items: $a;
+  justify-content: $j;
+}
+
+@mixin size($h, $w) {
+  height: $h;
+  width: $w;
+}
+
+$color_grey: #737373;
+$color_green: #769763;
+$color_yellow: #F1D675;
+
+$padding_horizontal: 8vw;
+
+$font_default_size: 0.8vw;
+
+$bg: #666666;
