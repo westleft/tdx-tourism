@@ -5,6 +5,7 @@ import { RouterView } from 'vue-router'
 
 const el = ref(null)
 const { height } = useElementSize(el)
+
 </script>
 
 <template>
@@ -34,7 +35,7 @@ const { height } = useElementSize(el)
       <img class="header__img-faq" src="@img/icons/faq.png">
     </div>
   </header>
-  <div :style="{ height: `${height + 40}px` }"></div>
+  <div :style="{ height: `${height}px` }"></div>
 </template>
 
 <style lang="scss" scoped>
