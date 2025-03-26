@@ -1,33 +1,65 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import type { ApiResponseWrapper, AttractionItem, EventItem, RestaurantItem } from '../types'
+import { computed, onBeforeMount, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { apiGetTourism } from '../api'
 
-interface ApiResponse {
-  value: {
-    AttractionName: string
-  }[]
+type TourismType = 'Attraction' | 'Restaurant' | 'Event'
+type TourismItem = (AttractionItem & RestaurantItem & EventItem) & {
+  id: string
+  name: string
 }
 
-const tourismData = ref()
+const route = useRoute()
+const tourismData = ref<TourismItem[]>()
 
-onBeforeMount(async () => {
-  const response = await apiGetTourism<ApiResponse>(`?top=5&$select=AttractionName,PostalAddress,AttractionID&$format=JSON`)
-  tourismData.value = response.data.value
-  console.log(tourismData.value)
+const tourismType = computed((): TourismType => {
+  const type = route.params.type as string
+  return (type.substring(0, 1).toUpperCase() + type.substring(1)) as TourismType
+})
+
+const fetchTourismData = async () => {
+  try {
+    const response = await apiGetTourism<ApiResponseWrapper<TourismItem[]>>({
+      type: tourismType.value,
+      query: '?$top=8&$filter=Images/all(x: x/URL ne \'\')',
+    })
+
+    return response.data.value
+    // tourismData.value = response.data.value
+  } catch (e: any) {
+    throw new Error(e)
+  }
+}
+
+watch(route, async () => {
+  const response = await fetchTourismData()
+  tourismData.value = response
+})
+
+onBeforeMount(() => {
+  fetchTourismData()
 })
 </script>
 
 <template>
   <div class="search">
     <ul class="search__list">
-      <li v-for="i in 10" :key="i" class="list-item">
+      <li v-for="item in tourismData" :key="item[`${tourismType}ID`]" class="list-item">
         <RouterLink to="/" class="list-link">
-          <img class="list-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFUAfyVe3Easiycyh3isP9wDQTYuSmGPsPQvLIJdEYvQ_DsFq5Ez2Nh_QjiS3oZ3B8ZPfK9cZQyIStmQMV1lDPLw" alt="">
+          <div class="list-img-wrapper">
+            <img
+              v-if="item.Images[0]"
+              class="list-img"
+              :src="item.Images[0].URL"
+              :alt="item.Images[0].Name"
+            >
+          </div>
           <h4 class="list-text">
-            綠島豆丁海馬海底郵筒
+            {{ item[`${tourismType}Name`] }}
           </h4>
           <p class="list-text">
-            臺南市 將軍區
+            {{ item.PostalAddress.City }} {{ item.PostalAddress.Town }}
           </p>
         </RouterLink>
       </li>
@@ -59,21 +91,33 @@ onBeforeMount(async () => {
   .list-item {
     @include flex();
     width: 25%;
-    // background-color: red;
+    overflow: hidden;
+    padding: 1.2vw;
   }
 
   .list-img {
+    &-wrapper {
+      overflow: hidden;
+      width: 100%;
+      height: 12vw;
+      margin-bottom: 0.4vw;
+      border-radius: 4px;
+    }
+
+    @include size(100%, 100%);
     object-fit: cover;
     object-position: center;
     border-radius: 4px;
-    width: 100%;
-    height: 12vw;
-    margin-bottom: 0.8vw;
+    transition: 0.4s;
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   .list-link {
+    text-decoration: none;
     font-size: 1.2vw;
-    padding: 0.8vw 1.2vw;
+    // padding: 0.8vw 1.2vw;
   }
 
   .list-text {

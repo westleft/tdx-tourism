@@ -5,7 +5,6 @@ import { RouterView } from 'vue-router'
 
 const el = ref(null)
 const { height } = useElementSize(el)
-
 </script>
 
 <template>
@@ -15,19 +14,19 @@ const { height } = useElementSize(el)
     </RouterView>
     <ul class="header__list">
       <li>
-        <p class="header__list-text">
+        <RouterLink to="/search/attraction" class="header__list-text">
           找景點<br>ATTRACTION
-        </p>
+        </RouterLink>
       </li>
       <li>
-        <p class="header__list-text">
+        <RouterLink to="/search/restaurant" class="header__list-text">
           找美食<br>DELICACY
-        </p>
+        </RouterLink>
       </li>
       <li>
-        <p class="header__list-text">
+        <RouterLink to="/search/event" class="header__list-text">
           找活動<br>ACTIVITY
-        </p>
+        </RouterLink>
       </li>
     </ul>
     <div class="">
@@ -35,11 +34,10 @@ const { height } = useElementSize(el)
       <img class="header__img-faq" src="@img/icons/faq.png">
     </div>
   </header>
-  <div :style="{ height: `${height}px` }"></div>
+  <div :style="{ height: `${height}px` }" />
 </template>
 
 <style lang="scss" scoped>
-
 .header {
   @include flex(center, space-between);
   position: fixed;
@@ -54,6 +52,8 @@ const { height } = useElementSize(el)
     @include flex();
 
     &-text {
+      @include flex();
+      text-decoration: none;
       color: $color_grey;
       text-align: center;
       line-height: 140%;
