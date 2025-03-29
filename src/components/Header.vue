@@ -47,7 +47,7 @@ const { height } = useElementSize(el)
   background-color: #ffffff;
   padding: 1.2vw $padding_horizontal;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.10);
-  z-index: 1;
+  z-index: 1001;
   &__list {
     @include flex();
 

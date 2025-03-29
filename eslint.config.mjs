@@ -17,6 +17,7 @@ export default antfu({
 
   rules: {
     'antfu/top-level-function': 'off',
-    'style/brace-style': 'off', // ✅ 讓 catch 不換行
+    'style/brace-style': 'off',
+    'vue/html-self-closing': 'off',
   },
 })

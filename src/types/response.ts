@@ -2,46 +2,42 @@ export interface ApiResponseWrapper<T> {
   value: T
 }
 
-export interface TourismItem {
-  id: string
+export interface CommonTourismItem {
+  Description: string
   name: string
+  Images: {
+    Name: string
+    URL: string
+  }[]
+  PostalAddress: {
+    City: string
+    Town: string
+    StreetAddress: string
+  }
+  TrafficInfo: string
+  Telephones: {
+    Tel: string
+  }[]
+  ParkingInfo: string
+  PositionLat: number
+  PositionLon: number
+  Remarks: string
+  ServiceTimeInfo: string
 }
 
-export interface AttractionItem {
+export interface AttractionItem extends CommonTourismItem {
   AttractionID: string
   AttractionName: string
-  Images: {
-    Name: string
-    URL: string
-  }[]
-  PostalAddress: {
-    City: string
-    Town: string
-  }
 }
 
-export interface RestaurantItem {
+export interface RestaurantItem extends CommonTourismItem {
   RestaurantID: string
   RestaurantName: string
-  Images: {
-    Name: string
-    URL: string
-  }[]
-  PostalAddress: {
-    City: string
-    Town: string
-  }
 }
 
-export interface EventItem {
+export interface EventItem extends CommonTourismItem {
   EventID: string
   EventName: string
-  Images: {
-    Name: string
-    URL: string
-  }[]
-  PostalAddress: {
-    City: string
-    Town: string
-  }
 }
+
+export type TourismItem = AttractionItem & RestaurantItem & EventItem

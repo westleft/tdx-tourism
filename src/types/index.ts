@@ -9,6 +9,15 @@ export const TokenResponseSchema = z.object({
   'token_type': z.string(), // Token 類型（Bearer）
 })
 
+export type TourismType = 'Attraction' | 'Restaurant' | 'Event'
+
 export type TokenResponse = z.infer<typeof TokenResponseSchema>
 
-export type { ApiResponseWrapper, AttractionItem, EventItem, RestaurantItem, TourismItem } from './response.ts'
+export type {
+  ApiResponseWrapper,
+  AttractionItem,
+  CommonTourismItem,
+  EventItem,
+  RestaurantItem,
+  TourismItem,
+} from './response.ts'
