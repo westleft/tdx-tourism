@@ -1,3 +1,6 @@
+export { useTourism } from './tourism/useTourism'
+export { useTourismPagination } from './tourism/useTourismPagination'
 export { useAuth } from './useAuth'
+export { useInfiniteScroll } from './useInfiniteScroll'
 export { useMap } from './useMap'
 export { useSafeParse } from './useSafeParse'

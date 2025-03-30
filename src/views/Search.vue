@@ -1,46 +1,31 @@
 <script setup lang="ts">
-import type { ApiResponseWrapper, TourismItem, TourismType } from '@/types'
-import { apiGetTourism } from '@/api'
+import type { ApiResponseWrapper, TourismItem } from '@/types'
 import Card from '@/components/common/Card.vue'
-import { capitalize } from '@/utils/'
-import { computed, onBeforeMount, ref, watch } from 'vue'
-import { toast } from 'vue3-toastify'
-import { useRoute } from 'vue-router'
+import CardSkeleton from '@/components/common/CardSkeleton.vue'
+import { useInfiniteScroll, useTourism, useTourismPagination } from '@/composables'
+import { ref, watch } from 'vue'
 
-const route = useRoute()
-const tourismData = ref<TourismItem[]>()
+const tourismData = ref<TourismItem[]>([])
+const { tourismType, fetchTourismData } = useTourism()
+const { query, setQuery } = useTourismPagination()
 
-const tourismType = computed((): TourismType => {
-  const type = route.params.type as string
-  return capitalize<TourismType>(type)
-})
-
-const fetchTourismData = async () => {
-  try {
-    const response = await apiGetTourism<ApiResponseWrapper<TourismItem[]>>({
-      type: tourismType.value,
-      query: '?$top=20&$filter=Remarks ne \'\'  ',
-    })
-
-    return response.data.value
-  } catch (e: any) {
-    toast.error('請求次數過多，請稍後再試', {
-      autoClose: 3000,
-    })
-    throw new Error(e)
-  }
-}
-
+// 取得 api 資料
 const getTourismData = async () => {
-  const response = await fetchTourismData()
-  tourismData.value = response
+  const response = await fetchTourismData<ApiResponseWrapper<TourismItem[]>>({
+    type: tourismType.value,
+    query: `?$top=${query.top}&skip=${query.skip}`,
+  })
+  tourismData.value?.push(...response.value)
+  setQuery('skip', query.skip += 20)
 }
 
-watch(route, async () => {
-  getTourismData()
-})
+// 無限滾動載入資料
+useInfiniteScroll('observer-div', getTourismData)
 
-onBeforeMount(() => {
+// 監聽 url type 異動，變更後重置
+watch(tourismType, async () => {
+  setQuery('skip', 0)
+  tourismData.value = []
   getTourismData()
 })
 </script>
@@ -56,6 +41,11 @@ onBeforeMount(() => {
           :description="`${item.PostalAddress.City} ${item.PostalAddress.Town}`"
           :image-url="item.Images[0] && item.Images[0].URL"
         />
+      </li>
+    </ul>
+    <ul ref="observer-div" class="search__list">
+      <li v-for="i in 20" :key="i" class="list-item">
+        <CardSkeleton />
       </li>
     </ul>
     <!-- <SearchBar /> -->

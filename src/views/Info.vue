@@ -31,8 +31,8 @@ const fetchTourismData = async () => {
 
 onMounted(async () => {
   tourismData.value = await fetchTourismData()
-  const { PositionLon, PositionLat } = tourismData.value
   await nextTick()
+  const { PositionLon, PositionLat } = tourismData.value
   useMap('map', {
     PositionLon,
     PositionLat,
