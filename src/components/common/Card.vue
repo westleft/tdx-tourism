@@ -21,6 +21,7 @@ const imageLoaded = () => imageLoading.value = false
       },
     }"
     class="list-link"
+    target="_blank"
   >
     <div class="list-img-wrapper">
       <div v-if="props.imageUrl && imageLoading" class="skeleton"></div>
