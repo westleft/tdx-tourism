@@ -2,9 +2,9 @@
 import type { TourismItem, TourismType } from '@/types'
 import { apiGetTourism } from '@/api'
 import Card from '@/components/common/Card.vue'
-import { capitalize, splitByUnderscore } from '@/utils/'
-import L from 'leaflet'
-import { nextTick, onBeforeMount, onMounted, ref } from 'vue'
+import { useMap } from '@/composables'
+import { splitByUnderscore } from '@/utils/'
+import { nextTick, onMounted, ref } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useRoute } from 'vue-router'
 import 'leaflet/dist/leaflet.css'
@@ -29,22 +29,14 @@ const fetchTourismData = async () => {
   }
 }
 
-onBeforeMount(async () => {
-
-})
-
 onMounted(async () => {
   tourismData.value = await fetchTourismData()
-  console.log(tourismData.value)
   const { PositionLon, PositionLat } = tourismData.value
   await nextTick()
-  const map = L.map('map').setView([PositionLat, PositionLon], 14)
-  const marker = L.marker([PositionLat, PositionLon]).addTo(map)
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }).addTo(map)
-  // marker.bindPopup('Hello world!I am a popup.').openPopup()
+  useMap('map', {
+    PositionLon,
+    PositionLat,
+  })
 })
 </script>
 
