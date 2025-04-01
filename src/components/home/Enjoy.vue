@@ -1,15 +1,4 @@
 <script setup lang="ts">
-import { apiGetTourism } from '@/api'
-import { onMounted } from 'vue'
-
-onMounted(async () => {
-  const res = await apiGetTourism({
-    type: 'Restaurant',
-    query: '?$filter=contains(RestaurantName, \'海產餐廳\')',
-  })
-  console.log(res.data)
-})
-
 const data = [
   {
     name: '祥發海產餐廳',
@@ -86,12 +75,12 @@ const data = [
           </div>
         </div>
       </RouterLink>
-      <RouterLink v-for="i in 7" :key="i" class="enjoy__image-link" to="/">
+      <RouterLink v-for="item in data" :key="item.name" class="enjoy__image-link" to="/">
         <div class="enjoy__image-box">
-          <img class="enjoy__image-main" :src="require(`@img/enjoy/enjoy-${i}.jpg`)" />
+          <img class="enjoy__image-main" :src="item.image" />
           <div class="enjoy__image-overlay">
-            <h4>鄭記香腸</h4>
-            <p>位於小琉球的老街上，最古早的鄭記琉球香腸老店創立於民國43年，已成為小琉球當地的名產之一。</p>
+            <h4>{{ item.name }}</h4>
+            <p>{{ item.description }}</p>
           </div>
         </div>
       </RouterLink>
