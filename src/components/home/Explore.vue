@@ -1,23 +1,32 @@
 <script setup lang="ts">
-
 const imageList = [
   {
-    text: '台東金剛大道'
-  }, {
-    text: '南投日月潭文武廟'
-  }, {
-    text: '寧夏觀光夜市'
-  }, {
-    text: '南投合歡山'
-  }, {
-    text: '北投圖書館'
-  }, {
-    text: '樹林青龍嶺步道'
-  }, {
-    text: '水里車埕車站'
-  }
+    id: 'Attraction_A15010100H_000236',
+    text: '台東金剛大道',
+  },
+  {
+    id: 'Attraction_376480000A_000332',
+    text: '南投日月潭文武廟',
+  },
+  {
+    id: 'Attraction_379000000A_003125',
+    text: '寧夏觀光夜市',
+  },
+  {
+    id: 'Attraction_345040000G_000010',
+    text: '南投合歡山',
+  },
+  {
+    text: '北投圖書館',
+  },
+  {
+    id: 'Attraction_382000000A_109828',
+    text: '樹林青龍嶺步道',
+  },
+  {
+    text: '水里車埕車站',
+  },
 ]
-
 </script>
 
 <template>
@@ -33,7 +42,16 @@ const imageList = [
           人們發現，無論想要來場山林陶冶身心之旅，抑或體驗歷史人文的深<br>
           度旅行，都可以在台灣這片土地上踏尋不同的風采。
         </p>
-        <RouterLink to="/" class="explore__link">
+        <RouterLink
+          :to="{
+            name: 'Search',
+            params: {
+              type: 'attraction',
+            },
+          }"
+          target="_blank"
+          class="explore__link"
+        >
           探索更多景色
         </RouterLink>
       </div>
@@ -50,7 +68,9 @@ const imageList = [
               :alt="`${item.text} 圖片`"
             />
           </div>
-          <p class="explore__image-alt">{{ item.text }}</p>
+          <p class="explore__image-alt">
+            {{ item.text }}
+          </p>
         </div>
       </div>
     </div>
@@ -68,7 +88,9 @@ const imageList = [
             loading="lazy"
           />
         </div>
-        <p class="explore__image-alt">{{ item.text }}</p>
+        <p class="explore__image-alt">
+          {{ item.text }}
+        </p>
       </div>
     </div>
   </div>

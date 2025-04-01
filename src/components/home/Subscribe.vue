@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const isInputFocus = ref(false)
 </script>
 
@@ -14,7 +15,7 @@ const isInputFocus = ref(false)
       <p class="subscribe__text">
         如果你願意收到每月旅遊資訊，一起感受台灣旅行的美好。
       </p>
-      <div :class="['subscribe__input-box', { 'isFocus': isInputFocus }]">
+      <div class="subscribe__input-box" :class="[{ isFocus: isInputFocus }]">
         <input
           type="email"
           placeholder="youremail@example.com"
@@ -107,4 +108,5 @@ const isInputFocus = ref(false)
     width: 1.2vw;
     cursor: pointer;
   }
-}</style>
+}
+</style>

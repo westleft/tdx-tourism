@@ -1,7 +1,7 @@
 // src/composables/useTourismPagination.ts
 export const useTourismPagination = () => {
   const query = {
-    top: 0,
+    top: 20,
     skip: 0,
   }
 

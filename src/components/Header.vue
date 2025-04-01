@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useElementSize } from '@vueuse/core'
 import { ref } from 'vue'
-import { RouterView } from 'vue-router'
 
 const el = ref(null)
 const { height } = useElementSize(el)
@@ -9,9 +8,9 @@ const { height } = useElementSize(el)
 
 <template>
   <header ref="el" class="header">
-    <RouterView to="/">
+    <RouterLink to="/">
       <img class="header__img-logo" src="@img/icons/logo.png">
-    </RouterView>
+    </RouterLink>
     <ul class="header__list">
       <li>
         <RouterLink to="/search/attraction" class="header__list-text">

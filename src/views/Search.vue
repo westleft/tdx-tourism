@@ -16,7 +16,7 @@ const getTourismData = async () => {
     query: `?$top=${query.top}&skip=${query.skip}`,
   })
   tourismData.value?.push(...response.value)
-  setQuery('skip', query.skip += 20)
+  setQuery('skip', query.skip += query.top)
 }
 
 // 無限滾動載入資料
