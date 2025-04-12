@@ -37,7 +37,6 @@ export const useAuth = () => {
 
       const { access_token, expires_in } = response.data
       setExpiresTime(expires_in)
-      console.log('access_token', access_token)
 
       localStorage.setItem('token', access_token)
     } catch (e: any) {

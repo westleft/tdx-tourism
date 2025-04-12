@@ -13,7 +13,7 @@ const { query, setQuery } = useTourismPagination()
 const getTourismData = async () => {
   const response = await fetchTourismData<ApiResponseWrapper<TourismItem[]>>({
     type: tourismType.value,
-    query: `?$top=${query.top}&skip=${query.skip}`,
+    query: `?$filter=Images/any()&$top=${query.top}&skip=${query.skip}`,
   })
   tourismData.value?.push(...response.value)
   setQuery('skip', query.skip += query.top)
